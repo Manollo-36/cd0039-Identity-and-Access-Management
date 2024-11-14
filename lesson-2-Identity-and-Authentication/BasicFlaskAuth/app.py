@@ -7,9 +7,9 @@ from urllib.request import urlopen
 
 app = Flask(__name__)
 
-AUTH0_DOMAIN = @TODO_REPLACE_WITH_YOUR_DOMAIN
+AUTH0_DOMAIN = 'fsndmanos.eu.auth0.com'#@TODO_REPLACE_WITH_YOUR_DOMAIN
 ALGORITHMS = ['RS256']
-API_AUDIENCE = @TODO_REPLACE_WITH_YOUR_API_AUDIENCE
+API_AUDIENCE = 'image'
 
 
 class AuthError(Exception):
@@ -22,6 +22,7 @@ def get_token_auth_header():
     """Obtains the Access Token from the Authorization Header
     """
     auth = request.headers.get('Authorization', None)
+    
     if not auth:
         raise AuthError({
             'code': 'authorization_header_missing',
@@ -109,9 +110,10 @@ def requires_auth(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         token = get_token_auth_header()
-        try:
+        try:           
             payload = verify_decode_jwt(token)
-        except:
+        except Exception as ex:
+            print(ex)
             abort(401)
         return f(payload, *args, **kwargs)
 
