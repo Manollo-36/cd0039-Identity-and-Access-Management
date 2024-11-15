@@ -38,11 +38,11 @@ def get_drinks(self):
         print (f'drink_menu:{drink_menu}')    
         if len(drink_menu) ==0:
             return not_found(404)
-        
-        drinks= [drink.short() for drink in drink_menu]
-        print (f'drinks: {drinks}')
-        response = { "success": True, "drinks": drinks}, 200
-        return jsonify(response)
+        else:
+            drinks= [drink.short() for drink in drink_menu]
+            print (f'drinks: {drinks}')
+            response = { "success": True, "drinks": drinks}, 200
+            return jsonify(response)
     except Exception as ex:
         print(ex)
         return unprocessable(422)
@@ -63,14 +63,14 @@ def get_drinks_detail(self):
         print (drink_menu)
         if len(drink_menu ) == 0 :
             return not_found(404)
-        
-        drinks= [drink.long() for drink in drink_menu]
-        print 
-        response = { "success": True, "drinks": drinks}, 200
-        return jsonify(response)
+        else:
+            drinks= [drink.long() for drink in drink_menu]
+         
+            response = { "success": True, "drinks": drinks}, 200
+            return jsonify(response)
     except Exception as ex:
         print(ex)
-        return handle_auth_error(ex)
+        return unprocessable(422)
     
 
 '''
@@ -90,17 +90,21 @@ def add_drinks(self):
     new_recipe = new_drink_request["recipe"]
 
     try:
-        add_drink = Drink(
+        new_drink = Drink(
                 title=new_title,
                 recipe= json.dumps(new_recipe)
             )
-        Drink.insert(add_drink)
-
-        response = { "success": True, "drinks": add_drink.long()}, 200
-        return jsonify(response)
+        
+        if new_title =='' :
+            return bad_request(400)
+        else: 
+            new_drink.insert()
+             
+            response = { "success": True, "drinks": new_drink.long()}, 200
+            return jsonify(response)
     except Exception as ex:
         print(ex)
-        return method_not_allowed(405)
+        return unprocessable(422)
 
 '''
 @TODO implement endpoint
@@ -113,31 +117,30 @@ def add_drinks(self):
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the updated drink
         or appropriate status code indicating reason for failure
 '''
-@app.route('/drinks/<id>',methods=['PATCH'])
-@requires_auth('post:drinks')
-def update_drinks(self,id):  
+@app.route('/drinks/<int:drink_id>',methods=['PATCH'])
+@requires_auth('patch:drinks')
+def update_drinks(self,drink_id):  
     new_drink_request = request.get_json()
     new_title = new_drink_request["title"]
     new_recipe = new_drink_request["recipe"]
 
     try:
 
-        drink = Drink.query.filter(Drink.id == id).one_or_none()
+        drink = Drink.query.filter(Drink.id == drink_id).one_or_none()
+
         if drink is None:               
                 return not_found(404)  
-        if new_title =='' or new_recipe =='':
-             return bad_request(400)
-        drink.title = new_title
-        drink.recipe = json.dumps(new_recipe) 
-        drink.update()
-        
-        
-        drinks= [drink.long() for drink in drink]
-        response = { "success": True, "drinks": drinks}, 200
-        return jsonify(response)
+        else:
+            drink.title = new_title
+            drink.recipe = json.dumps(new_recipe) 
+            
+            drink.update()
+            response = { "success": True, "drinks": [drink.long()]}, 200
+            return jsonify(response)
     except Exception as ex:
         print(ex)
-        return method_not_allowed(405)
+        return unprocessable(422)
+
 
 '''
 @TODO implement endpoint
@@ -149,14 +152,25 @@ def update_drinks(self,id):
     returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted record
         or appropriate status code indicating reason for failure
 '''
+@app.route('/drinks/<int:drink_id>',methods=['DELETE'])
+@requires_auth('delete:drinks')
+def delete_drinks(self,drink_id):
+    try:
+        print (f"drink_id: {drink_id}")
+        drink = Drink.query.filter(Drink.id == drink_id).one_or_none()
+        print(f"drink: {drink}")
+        if drink is None:
+            return not_found(404)
+        else: 
+            drink.delete()
 
-
+            response ={"success": True, "delete": drink_id},200
+            return jsonify(response)
+    except Exception as ex:
+        print(ex)
+        return unprocessable(422)
+    
 # Error Handling
-'''
-Example error handling for unprocessable entity
-'''
-
-
 @app.errorhandler(422)
 def unprocessable(error):
     return jsonify({
@@ -177,33 +191,18 @@ def not_found(error):
             ),
             404,
         )
-'''
-@TODO implement error handlers using the @app.errorhandler(error) decorator
-    each error handler should return (with approprate messages):
-             jsonify({
-                    "success": False,
-                    "error": 404,
-                    "message": "resource not found"
-                    }), 404
-
-'''
-
-'''
-@TODO implement error handler for 404
-    error handler should conform to general task above
-'''
-@app.errorhandler(405)
-def method_not_allowed(error):
-        return (
-            jsonify(
-                {
-                    "success": False,
-                    "error": 405,
-                    "message": "method not allowed",
-                }
-            ),
-            405,
-        )
+# @app.errorhandler(405)
+# def method_not_allowed(error):
+#         return (
+#             jsonify(
+#                 {
+#                     "success": False,
+#                     "error": 405,
+#                     "message": "method not allowed",
+#                 }
+#             ),
+#             405,
+#         )
 
 @app.errorhandler(400)
 def bad_request(error):
@@ -213,11 +212,10 @@ def bad_request(error):
         )
 
 '''
-@TODO implement error handler for AuthError
-    error handler should conform to general task above
+@TODO implement error handler for AuthError    
 '''
 @app.errorhandler(AuthError)
 def handle_auth_error(ex):
-    response = jsonify(ex.error)
-    response.status_code = ex.status_code
+    response =  jsonify({"success":False,"error":ex.status_code,"message":ex.error})
+    #response.status_code = ex.status_code
     return response
