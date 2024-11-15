@@ -8,7 +8,7 @@ app = Flask(__name__)
 def get_token_auth_header():
     if 'Authorization' not in request.headers:
         abort(401)
-
+    
     auth_headers = request.headers["Authorization"]
     header_parts = auth_headers.split(' ')
     if len(header_parts) != 2:
