@@ -31,16 +31,16 @@ with app.app_context():
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks',methods=['GET'])
-@requires_auth('get:drinks')
-def get_drinks(self):
+#@requires_auth('get:drinks')
+def get_drinks():
     try:
         drink_menu = Drink.query.all()
-        print (f'drink_menu:{drink_menu}')    
+        #print (f'drink_menu:{drink_menu}')    
         if len(drink_menu) ==0:
             return not_found(404)
         else:
             drinks= [drink.short() for drink in drink_menu]
-            print (f'drinks: {drinks}')
+            #print (f'drinks: {drinks}')
             response = { "success": True, "drinks": drinks}, 200
             return jsonify(response)
     except Exception as ex:
@@ -156,9 +156,9 @@ def update_drinks(self,drink_id):
 @requires_auth('delete:drinks')
 def delete_drinks(self,drink_id):
     try:
-        print (f"drink_id: {drink_id}")
+        #print (f"drink_id: {drink_id}")
         drink = Drink.query.filter(Drink.id == drink_id).one_or_none()
-        print(f"drink: {drink}")
+        #print(f"drink: {drink}")
         if drink is None:
             return not_found(404)
         else: 
