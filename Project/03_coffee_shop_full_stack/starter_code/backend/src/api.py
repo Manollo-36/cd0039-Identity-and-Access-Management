@@ -34,15 +34,18 @@ with app.app_context():
 #@requires_auth('get:drinks')
 def get_drinks():
     try:
-        drink_menu = Drink.query.all()
-        #print (f'drink_menu:{drink_menu}')    
-        if len(drink_menu) ==0:
+        
+        drink_menu = Drink.query.order_by(Drink.id).all()
+        print (f"drink_menu: {drink_menu}")
+        formated_drinks= [drink.short() for drink in drink_menu]
+        print (f'formated_drinks:{formated_drinks}')    
+        if len(formated_drinks) ==0:
             return not_found(404)
         else:
-            drinks= [drink.short() for drink in drink_menu]
+            
             #print (f'drinks: {drinks}')
-            response = { "success": True, "drinks": drinks}, 200
-            return jsonify(response)
+            #response = { "success": True, "drinks": formated_drinks}, 200
+            return jsonify({ "success": True, "drinks": formated_drinks})
     except Exception as ex:
         print(ex)
         return unprocessable(422)
@@ -59,15 +62,13 @@ def get_drinks():
 @requires_auth('get:drinks-detail')
 def get_drinks_detail(self):    
     try:
-        drink_menu =Drink.query.all()
-        print (drink_menu)
-        if len(drink_menu ) == 0 :
+        drink_menu =Drink.query.order_by(Drink.id).all()
+        formated_drinks= [drink.long() for drink in drink_menu]
+        print (f"Long: {formated_drinks}")
+        if len(formated_drinks ) == 0 :
             return not_found(404)
-        else:
-            drinks= [drink.long() for drink in drink_menu]
-         
-            response = { "success": True, "drinks": drinks}, 200
-            return jsonify(response)
+        else:            
+            return jsonify({ "success": True, "drinks": formated_drinks})
     except Exception as ex:
         print(ex)
         return unprocessable(422)
@@ -85,9 +86,10 @@ def get_drinks_detail(self):
 @app.route('/drinks',methods=['POST'])
 @requires_auth('post:drinks')
 def add_drinks(self):  
-    new_drink_request = request.get_json()
-    new_title = new_drink_request["title"]
-    new_recipe = new_drink_request["recipe"]
+    body = request.get_json()
+   
+    new_title = body["title"]
+    new_recipe = body["recipe"]
 
     try:
         new_drink = Drink(
@@ -100,7 +102,7 @@ def add_drinks(self):
         else: 
             new_drink.insert()
              
-            response = { "success": True, "drinks": new_drink.long()}, 200
+            response = { "success": True, "drinks": [new_drink.long()]}
             return jsonify(response)
     except Exception as ex:
         print(ex)
@@ -120,9 +122,12 @@ def add_drinks(self):
 @app.route('/drinks/<int:drink_id>',methods=['PATCH'])
 @requires_auth('patch:drinks')
 def update_drinks(self,drink_id):  
-    new_drink_request = request.get_json()
-    new_title = new_drink_request["title"]
-    new_recipe = new_drink_request["recipe"]
+    body = request.get_json()
+    new_title = body.get("title", None)
+    new_recipe = body.get("recipe", None)
+
+    # new_title = new_drink_request["title"]
+    # new_recipe = new_drink_request["recipe"]
 
     try:
 
@@ -135,8 +140,8 @@ def update_drinks(self,drink_id):
             drink.recipe = json.dumps(new_recipe) 
             
             drink.update()
-            response = { "success": True, "drinks": [drink.long()]}, 200
-            return jsonify(response)
+          
+            return jsonify({ "success": True, "drinks": [drink.long()]})
     except Exception as ex:
         print(ex)
         return unprocessable(422)
@@ -163,9 +168,7 @@ def delete_drinks(self,drink_id):
             return not_found(404)
         else: 
             drink.delete()
-
-            response ={"success": True, "delete": drink_id},200
-            return jsonify(response)
+            return jsonify({"success": True, "delete": drink_id})
     except Exception as ex:
         print(ex)
         return unprocessable(422)
@@ -216,6 +219,6 @@ def bad_request(error):
 '''
 @app.errorhandler(AuthError)
 def handle_auth_error(ex):
-    response =  jsonify({"success":False,"error":ex.status_code,"message":ex.error})
+    response =  jsonify({"success":False,"error":ex.status_code,"message":ex.error}),ex.status_code
     #response.status_code = ex.status_code
     return response
