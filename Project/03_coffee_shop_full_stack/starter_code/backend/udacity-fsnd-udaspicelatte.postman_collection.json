@@ -1,7 +1,7 @@
 {
-	"id": "ade85a27-bd1c-4f6d-b4fe-268c003f5abd",
+	"id": "4cf30fc2-9d52-4e8d-b1bb-dd722c9760a7",
 	"name": "udacity-fsnd-udaspicelatte",
-	"timestamp": "2024-11-18T06:31:50.852Z",
+	"timestamp": "2024-11-21T12:12:53.192Z",
 	"collection_id": "39787571-c069cf3c-b9b3-4ecc-be09-4273e6c32965",
 	"folder_id": 0,
 	"environment_id": "0",
@@ -9,14 +9,14 @@
 	"delay": 0,
 	"persist": true,
 	"status": "finished",
-	"startedAt": "2024-11-18T06:31:48.465Z",
+	"startedAt": "2024-11-21T12:12:50.782Z",
 	"totalFail": 0,
 	"results": [
 		{
 			"id": "ac04cfec-5b7a-4cb2-9def-a907a42abea1",
 			"name": "/drinks",
 			"url": "127.0.0.1:5000/drinks",
-			"time": 20,
+			"time": 16,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -36,7 +36,7 @@
 				}
 			},
 			"times": [
-				20
+				16
 			],
 			"allTests": [
 				{
@@ -49,7 +49,7 @@
 			"id": "2e2b8aca-163b-46ef-947c-26dd52d04869",
 			"name": "/drinks-detail",
 			"url": "127.0.0.1:5000/drinks-detail",
-			"time": 4,
+			"time": 6,
 			"responseCode": {
 				"code": 401,
 				"name": "UNAUTHORIZED"
@@ -64,7 +64,7 @@
 				}
 			},
 			"times": [
-				4
+				6
 			],
 			"allTests": [
 				{
@@ -76,6 +76,33 @@
 			"id": "ffd8cb02-a9ab-4b81-8c69-f071e56339c9",
 			"name": "/drinks",
 			"url": "127.0.0.1:5000/drinks",
+			"time": 5,
+			"responseCode": {
+				"code": 401,
+				"name": "UNAUTHORIZED"
+			},
+			"tests": {
+				"Status code is 401 since no credentials are present": true
+			},
+			"testPassFailCounts": {
+				"Status code is 401 since no credentials are present": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 401 since no credentials are present": true
+				}
+			]
+		},
+		{
+			"id": "5535cc9c-bc08-4a57-93a4-a02ce87d8dbc",
+			"name": "/drinks/1",
+			"url": "127.0.0.1:5000/drinks/1",
 			"time": 4,
 			"responseCode": {
 				"code": 401,
@@ -100,37 +127,10 @@
 			]
 		},
 		{
-			"id": "5535cc9c-bc08-4a57-93a4-a02ce87d8dbc",
-			"name": "/drinks/1",
-			"url": "127.0.0.1:5000/drinks/1",
-			"time": 7,
-			"responseCode": {
-				"code": 401,
-				"name": "UNAUTHORIZED"
-			},
-			"tests": {
-				"Status code is 401 since no credentials are present": true
-			},
-			"testPassFailCounts": {
-				"Status code is 401 since no credentials are present": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				7
-			],
-			"allTests": [
-				{
-					"Status code is 401 since no credentials are present": true
-				}
-			]
-		},
-		{
 			"id": "33e2ac19-613e-46d9-a2cf-019b9c3d872b",
 			"name": "/drinks/1",
 			"url": "127.0.0.1:5000/drinks/1",
-			"time": 3,
+			"time": 4,
 			"responseCode": {
 				"code": 401,
 				"name": "UNAUTHORIZED"
@@ -145,7 +145,7 @@
 				}
 			},
 			"times": [
-				3
+				4
 			],
 			"allTests": [
 				{
@@ -157,7 +157,7 @@
 			"id": "7d7e9404-1ed5-49d8-a6a7-01c93cbf8b80",
 			"name": "/drinks",
 			"url": "127.0.0.1:5000/drinks",
-			"time": 13,
+			"time": 6,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -177,7 +177,7 @@
 				}
 			},
 			"times": [
-				13
+				6
 			],
 			"allTests": [
 				{
@@ -190,7 +190,7 @@
 			"id": "45b2419b-a930-434c-8809-9bfa533b82b5",
 			"name": "/drinks-detail",
 			"url": "127.0.0.1:5000/drinks-detail",
-			"time": 250,
+			"time": 333,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -205,7 +205,7 @@
 				}
 			},
 			"times": [
-				250
+				333
 			],
 			"allTests": [
 				{
@@ -217,7 +217,7 @@
 			"id": "0ec3da94-c3bf-4ec1-9cde-553125106193",
 			"name": "/drinks",
 			"url": "127.0.0.1:5000/drinks",
-			"time": 97,
+			"time": 147,
 			"responseCode": {
 				"code": 403,
 				"name": "FORBIDDEN"
@@ -232,7 +232,7 @@
 				}
 			},
 			"times": [
-				97
+				147
 			],
 			"allTests": [
 				{
@@ -244,7 +244,7 @@
 			"id": "63996c04-02e8-4019-9306-14495bce41ed",
 			"name": "/drinks/1",
 			"url": "127.0.0.1:5000/drinks/1",
-			"time": 72,
+			"time": 90,
 			"responseCode": {
 				"code": 403,
 				"name": "FORBIDDEN"
@@ -259,7 +259,7 @@
 				}
 			},
 			"times": [
-				72
+				90
 			],
 			"allTests": [
 				{
@@ -271,7 +271,7 @@
 			"id": "d002ea48-a986-4bee-886b-5b190a722973",
 			"name": "/drinks/1",
 			"url": "127.0.0.1:5000/drinks/1",
-			"time": 75,
+			"time": 105,
 			"responseCode": {
 				"code": 403,
 				"name": "FORBIDDEN"
@@ -286,7 +286,7 @@
 				}
 			},
 			"times": [
-				75
+				105
 			],
 			"allTests": [
 				{
@@ -298,7 +298,7 @@
 			"id": "74925735-e9e5-4d1e-8737-ee7a3f573010",
 			"name": "/drinks",
 			"url": "127.0.0.1:5000/drinks",
-			"time": 5,
+			"time": 7,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -318,7 +318,7 @@
 				}
 			},
 			"times": [
-				5
+				7
 			],
 			"allTests": [
 				{
@@ -331,7 +331,7 @@
 			"id": "cbc0bb01-2f10-473b-b222-527223a7bbd3",
 			"name": "/drinks-detail",
 			"url": "127.0.0.1:5000/drinks-detail",
-			"time": 85,
+			"time": 93,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -351,7 +351,7 @@
 				}
 			},
 			"times": [
-				85
+				93
 			],
 			"allTests": [
 				{
@@ -364,7 +364,7 @@
 			"id": "c894c9e0-5f38-43b8-836f-0ec985112946",
 			"name": "/drinks",
 			"url": "127.0.0.1:5000/drinks",
-			"time": 99,
+			"time": 124,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -379,7 +379,7 @@
 				}
 			},
 			"times": [
-				99
+				124
 			],
 			"allTests": [
 				{
@@ -391,7 +391,7 @@
 			"id": "bacd20e5-62dd-4cd8-bdf6-f4fb3985e40b",
 			"name": "/drinks/1",
 			"url": "127.0.0.1:5000/drinks/1",
-			"time": 80,
+			"time": 98,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -411,7 +411,7 @@
 				}
 			},
 			"times": [
-				80
+				98
 			],
 			"allTests": [
 				{
@@ -424,7 +424,7 @@
 			"id": "9721b98d-e3f7-48da-91dc-0a14ca3763b9",
 			"name": "/drinks/1",
 			"url": "127.0.0.1:5000/drinks/1",
-			"time": 78,
+			"time": 122,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -439,7 +439,7 @@
 				}
 			},
 			"times": [
-				78
+				122
 			],
 			"allTests": [
 				{
@@ -449,7 +449,7 @@
 		}
 	],
 	"count": 1,
-	"totalTime": 892,
+	"totalTime": 1160,
 	"collection": {
 		"requests": [
 			{
